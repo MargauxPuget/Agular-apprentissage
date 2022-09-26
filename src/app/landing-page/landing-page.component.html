@@ -1,5 +1,7 @@
 <div class="landing-block">
-  <form (ngSubmit)="onSubmitForm()">
+  <!-- on créer une 'référence locale' grace au '#' que l'on appel ici emailForm
+  on peut se servie du ngForm seulement si dans la fonction onSubmitForm l'argument form est de type NgForm -->
+  <form #emailForm ="ngForm" (ngSubmit)="onSubmitForm(emailForm)">
     <label for="emailInput">Inscrivez-vous pour recevoir notre newsletter !</label>
     <input type="email" id="emailInput" [(ngModel)]="userEmail" name="userEmail">
     <button type="submit">OK!</button>
