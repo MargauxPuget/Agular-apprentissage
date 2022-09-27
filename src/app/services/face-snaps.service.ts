@@ -17,19 +17,14 @@ export class FaceSnapsService {
     return this.http.get<FaceSnap[]>('http://localhost:3000/facesnaps');
   }
 
-  getfaceSnapById(faceSnapId: number): FaceSnap {
-    const faceSnap = this.faceSnaps.find(faceSnap => faceSnap.id === faceSnapId);
-    if (!faceSnap) {
-      throw new Error('FaceSnap not found!');
-    }else{
-      return faceSnap;
-    }
+  getfaceSnapById(faceSnapId: number): Observable<FaceSnap> {
+    return this.http.get<FaceSnap>(`http://localhost:3000/facesnaps/${faceSnapId}`)
   }
 
   // si issnapped est a false alors il n'a jamais était snappé
   snapFaceSnapById(faceSnapId: number, isSnapped: boolean): void {
-    const faceSnap = this.getfaceSnapById(faceSnapId);
-    isSnapped ? faceSnap.snaps++ : faceSnap.snaps--;
+    /* const faceSnap = this.getfaceSnapById(faceSnapId);
+    isSnapped ? faceSnap.snaps++ : faceSnap.snaps--; */
   }
 
   // ajouter un facesnap

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
 import { FaceSnap } from '../models/face-snap.model';
 import { FaceSnapsService } from '../services/face-snaps.service';
 
@@ -10,7 +11,7 @@ import { FaceSnapsService } from '../services/face-snaps.service';
 })
 
 export class SingleFaceSnapComponent implements OnInit {
-  faceSnap!: FaceSnap;
+  faceSnap$!: Observable<FaceSnap>;
   isSnapped!: boolean;
 
   constructor(private faceSnapsService : FaceSnapsService,
@@ -21,17 +22,17 @@ export class SingleFaceSnapComponent implements OnInit {
     // récupération des informations de l'url
     // le '+' permet de transformer en number ce que l'on récupère de l'url
     const facesnapId = +this.route.snapshot.params['id'];
-    this.faceSnap = this.faceSnapsService.getfaceSnapById(facesnapId);
+    this.faceSnap$ = this.faceSnapsService.getfaceSnapById(facesnapId);
   }
 
   onSnap(){
-    this.faceSnapsService
+    /* this.faceSnapsService
     if ( this.isSnapped ){
       this.faceSnapsService.snapFaceSnapById(this.faceSnap.id, false);
       this.isSnapped = false;
     } else {
       this.faceSnapsService.snapFaceSnapById(this.faceSnap.id, true);
       this.isSnapped = true;
-    }
+    } */
   }
 }
