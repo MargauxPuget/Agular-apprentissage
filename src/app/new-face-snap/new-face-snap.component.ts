@@ -24,6 +24,9 @@ export class NewFaceSnapComponent implements OnInit {
       description: [null, Validators.required],
       imageUrl: [null, [Validators.required, Validators.pattern(this.urlRegex)]],
       location: [null]
+    }, {
+      // le formulaire n'est mis à jour seulement quand l'on change que champ (et  pas à chaque lettre)
+      updateOn: 'blur'
     });
     // valueChanges est un observable qui emet tout l'objet du formGroup à chaque fois une valeur change
     // snapform n'est pas de type facesnap il faut donc lui ajouter les champs nécéssaire avec un .pipe puis un map()
