@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { FaceSnap } from '../models/face-snap.model';
 import { map } from 'rxjs/operators'
@@ -18,9 +18,9 @@ export class NewFaceSnapComponent implements OnInit {
 
   ngOnInit(): void {
     this.snapForm = this.formBuilder.group({
-      title: [null],
-      description: [null],
-      imageUrl: [null],
+      title: [null, Validators.required],
+      description: [null, Validators.required],
+      imageUrl: [null, Validators.required],
       location: [null]
     });
     // valueChanges est un observable qui emet tout l'objet du formGroup à chaque fois une valeur change
