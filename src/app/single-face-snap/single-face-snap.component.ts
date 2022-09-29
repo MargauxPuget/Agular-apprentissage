@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
+import { tap, exhaustMap } from 'rxjs/operators';
 import { FaceSnap } from '../models/face-snap.model';
 import { FaceSnapsService } from '../services/face-snaps.service';
 
@@ -25,14 +26,16 @@ export class SingleFaceSnapComponent implements OnInit {
     this.faceSnap$ = this.faceSnapsService.getfaceSnapById(facesnapId);
   }
 
-  onSnap(){
-    /* this.faceSnapsService
+  onSnap(faceSnapId : number){
+    this.faceSnapsService
     if ( this.isSnapped ){
-      this.faceSnapsService.snapFaceSnapById(this.faceSnap.id, false);
-      this.isSnapped = false;
+      this.faceSnap$ = this.faceSnapsService.snapFaceSnapById(faceSnapId, false).pipe(
+        tap(() => this.isSnapped = false)
+      );
     } else {
-      this.faceSnapsService.snapFaceSnapById(this.faceSnap.id, true);
-      this.isSnapped = true;
-    } */
+      this.faceSnap$ = this.faceSnapsService.snapFaceSnapById(faceSnapId, true).pipe(
+        tap(() => this.isSnapped = true)
+      );
+    }
   }
 }

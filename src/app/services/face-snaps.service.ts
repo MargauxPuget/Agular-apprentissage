@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
+import { map, switchMap } from "rxjs/operators"
 import { FaceSnap } from "../models/face-snap.model";
 
 // ce service doit être injecté à la racine de l'application ainsi au duplicata existe
@@ -22,10 +23,16 @@ export class FaceSnapsService {
   }
 
   // si issnapped est a false alors il n'a jamais était snappé
-  snapFaceSnapById(faceSnapId: number, isSnapped: boolean): void {
-    /* const faceSnap = this.getfaceSnapById(faceSnapId);
-    isSnapped ? faceSnap.snaps++ : faceSnap.snaps--; */
+  snapFaceSnapById(faceSnapId: number, isSnapped: boolean): Observable<FaceSnap> {
+    return this.getfaceSnapById(faceSnapId).pipe(
+      map(faceSnap => ({
+        ...faceSnap,
+        snaps: faceSnap.snaps + (isSnapped === true ? 1 : -1)
+      })),
+      switchMap(updatedFaceSnap => this.http.put<FaceSnap>(`http://localhost:3000/facesnaps/${faceSnapId}`, updatedFaceSnap))
+    );
   }
+
 
   // ajouter un facesnap
   addFaceSnap(formValue: {title: string, description: string, imageUrl: string, location?: string}): void {
