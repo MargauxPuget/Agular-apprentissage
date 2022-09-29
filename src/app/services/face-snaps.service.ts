@@ -35,14 +35,23 @@ export class FaceSnapsService {
 
 
   // ajouter un facesnap
-  addFaceSnap(formValue: {title: string, description: string, imageUrl: string, location?: string}): void {
-    const faceSnap: FaceSnap = {
-      ...formValue,
-      createdDate: new Date(),
-      snaps: 0,
-      id: this.faceSnaps[this.faceSnaps.length-1].id + 1
-    };
-    this.faceSnaps.push(faceSnap);
+  addFaceSnap(formValue: {title: string, description: string, imageUrl: string, location?: string}): Observable<FaceSnap> {
+    return this.getAllFaceSnaps().pipe(
+      // trier les faces snaps par id.
+      map(facesnaps => [...facesnaps].sort((a : FaceSnap, b : FaceSnap) => a.id - b.id)),
+      // on sort le dernier facesnap celui avec l'id le plus grand
+      map(sortedFacesnaps => sortedFacesnaps[sortedFacesnaps.length -1]),
+      // on retourne un noueau face snap avec un id valable
+      map(previousFacesnap => ({
+        ...formValue,
+        createdDate: new Date(),
+        snaps: 0,
+        id: previousFacesnap.id + 1
+
+      })),
+      // on ajout au serveur notre facesnap
+      switchMap(newFacesnap => this.http.post<FaceSnap>('http://localhost:3000/facesnaps', newFacesnap))
+    );
   }
 
 }
