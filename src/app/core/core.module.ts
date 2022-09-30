@@ -5,6 +5,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { RouterModule } from '@angular/router';
 import { registerLocaleData } from '@angular/common';
 import * as fr from '@angular/common/locales/fr';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,8 @@ import * as fr from '@angular/common/locales/fr';
   imports: [
     CommonModule,
     // pour que les liens avec changement de route fonction
-    RouterModule
+    RouterModule,
+    HttpClientModule
   ],
   // dans un module si on déclare les composants consommés par un autre module il faut permettre leurs exports
   exports: [
